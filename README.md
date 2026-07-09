@@ -4,9 +4,11 @@ Copy-paste CSS button hover effects. Zero dependencies, pure CSS.
 
 Hover to preview, click any button to copy the CDN link + button markup — a growing collection, new effects added over time.
 
+**🔗 Live demo → [shubham-ralli.github.io/HoverKit](https://shubham-ralli.github.io/HoverKit/)**
+
 ## Demo
 
-Open `index.html` in a browser, or serve the folder:
+Try it live at **[shubham-ralli.github.io/HoverKit](https://shubham-ralli.github.io/HoverKit/)**, or run it locally — open `index.html` in a browser or serve the folder:
 
 ```bash
 npx serve .
