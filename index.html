@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HoverKit — CSS Button Hover Effects</title>
+  <link rel="stylesheet" href="hoverkit.css" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #131a2e;
+      --panel-2: #1a2440;
+      --border: #263252;
+      --text: #e6ebff;
+      --muted: #8592b8;
+      --brand: #6366f1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(900px 500px at 15% -10%, rgba(99,102,241,0.18), transparent),
+        radial-gradient(800px 500px at 100% 0%, rgba(168,85,247,0.14), transparent),
+        var(--bg);
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      padding: 56px 24px 96px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 56px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .badge b { color: var(--brand); }
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      line-height: 1.1;
+      margin: 0 0 14px;
+      background: linear-gradient(90deg, #fff, #a5b4fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header p {
+      color: var(--muted);
+      font-size: 16px;
+      margin: 0;
+    }
+    header p kbd {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    /* Filter chips */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      max-width: 1000px;
+      margin: 0 auto 44px;
+    }
+    .chip {
+      font: 600 13px/1 "Inter", system-ui, sans-serif;
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 9px 18px;
+      cursor: pointer;
+      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+    .chip:hover { color: var(--text); border-color: #3a4a7a; }
+    .chip--active {
+      color: #fff;
+      background: var(--brand);
+      border-color: var(--brand);
+    }
+
+    /* Category section */
+    #grid { max-width: 1360px; margin: 0 auto; }
+    .section { margin-bottom: 48px; }
+    .section__title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section__count {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--panel-2);
+      border-radius: 999px;
+      padding: 3px 10px;
+    }
+
+    /* Grid — 6 columns, responsive */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 20px;
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+    @media (max-width: 1200px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 860px)  { .grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 640px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 420px)  { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      min-height: 200px;
+      padding: 30px 16px;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    /* Bigger preview buttons */
+    .card .btn {
+      padding: 18px 40px;
+      font-size: 17px;
+      border-radius: 12px;
+    }
+.card__meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .card__meta .num {
+      font-variant-numeric: tabular-nums;
+      color: #4a5a86;
+      font-weight: 700;
+    }
+    .card__copy {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 11px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 8px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    .card:hover .card__copy { opacity: 1; }
+
+    /* Wrapper so clicking anywhere on the pad copies */
+    .btn-wrap { cursor: pointer; }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(24px);
+      opacity: 0;
+      visibility: hidden;
+      background: #0f9d58;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 22px;
+      border-radius: 10px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+      transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2), opacity 0.25s ease, visibility 0.25s;
+      z-index: 100;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Content sections */
+    .content {
+      max-width: 860px;
+      margin: 96px auto 0;
+    }
+    .content + .content { margin-top: 72px; }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 700;
+      margin: 0 0 16px;
+      background: linear-gradient(90deg, #fff, #a5b4fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .content p {
+      color: #b7c0e0;
+      font-size: 16px;
+      line-height: 1.7;
+      margin: 0 0 14px;
+    }
+    .content a { color: #a5b4fc; }
+
+    /* Feature cards */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 28px;
+    }
+    @media (max-width: 720px) { .features { grid-template-columns: 1fr; } }
+    .feature {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+    }
+    .feature .ico { font-size: 22px; margin-bottom: 10px; }
+    .feature h3 { font-size: 15px; margin: 0 0 6px; color: var(--text); }
+    .feature p { font-size: 14px; line-height: 1.6; margin: 0; }
+
+    /* Code block */
+    pre.code {
+      background: #0a0f1e;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin: 20px 0 0;
+    }
+    pre.code code {
+      font: 13px/1.7 "SF Mono", "Fira Code", ui-monospace, monospace;
+      color: #d5deff;
+      white-space: pre;
+    }
+    .code .tag { color: #7dd3fc; }
+    .code .attr { color: #c4b5fd; }
+    .code .str { color: #86efac; }
+    .code .cmt { color: #5a678f; }
+
+    /* Steps */
+    .steps {
+      list-style: none;
+      counter-reset: step;
+      padding: 0;
+      margin: 24px 0 0;
+    }
+    .steps li {
+      position: relative;
+      counter-increment: step;
+      padding: 0 0 20px 46px;
+      color: #b7c0e0;
+      line-height: 1.6;
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: -2px;
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--brand);
+      border-radius: 50%;
+    }
+    .steps code {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    /* CTA */
+    .cta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin: 88px auto 0;
+    }
+    .cta a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      padding: 14px 26px;
+      border-radius: 12px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cta a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.4);
+    }
+    .cta a.btn-github { background: #fff; color: #0b1020; }
+    .cta a.btn-coffee { background: #ffdd00; color: #1a1a1a; }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 64px;
+    }
+    footer code {
+      color: var(--text);
+      background: var(--panel-2);
+      padding: 2px 6px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="badge"><b id="fx-count">—</b> hover effects</span>
+    <h1>HoverKit</h1>
+    <p>CSS button hover effects. Hover to preview, <kbd>click</kbd> to copy the CDN link + button.</p>
+  </header>
+
+  <nav class="filters" id="filters"><!-- chips injected by JS --></nav>
+
+  <div id="grid"><!-- sections injected by JS --></div>
+
+  <!-- About -->
+  <section class="content">
+    <h2>About HoverKit</h2>
+    <p>
+      HoverKit is a small, open-source collection of ready-to-use CSS button hover
+      effects. Every effect is pure CSS — no JavaScript, no framework, no build step.
+      Drop in one stylesheet and style any button with a single class name.
+    </p>
+    <p>
+      It's built to be copy-paste friendly: preview an effect, click it, and paste the
+      snippet straight into your project. The library grows over time as new effects
+      are added, so check back for more.
+    </p>
+  </section>
+
+  <!-- Features -->
+  <section class="content">
+    <h2>Why HoverKit</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="ico">⚡</div>
+        <h3>Zero dependencies</h3>
+        <p>Pure CSS. No JS, no framework, no build tools required.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">📋</div>
+        <h3>Copy &amp; paste</h3>
+        <p>Click any button to copy the link and markup instantly.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">🌐</div>
+        <h3>CDN ready</h3>
+        <p>Served free via jsDelivr — no download needed.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">🎨</div>
+        <h3>Themeable</h3>
+        <p>Recolor everything with a few CSS variables.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">🗂️</div>
+        <h3>Organized</h3>
+        <p>Effects grouped by category with a live filter.</p>
+      </div>
+      <div class="feature">
+        <div class="ico">📱</div>
+        <h3>Responsive</h3>
+        <p>Works and looks right on every screen size.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to use -->
+  <section class="content">
+    <h2>How to use</h2>
+    <ol class="steps">
+      <li>Add the stylesheet once — via CDN or the local <code>hoverkit.css</code> file.</li>
+      <li>Add the <code>btn</code> base class plus any effect class, e.g. <code>btn--lift</code>.</li>
+      <li>That's it. Recolor with the <code>--btn-bg</code>, <code>--btn-fg</code> and <code>--btn-accent</code> variables.</li>
+    </ol>
+    <pre class="code"><code><span class="cmt">&lt;!-- Add once in your &lt;head&gt; --&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"https://cdn.jsdelivr.net/gh/shubham-ralli/hoverkit@main/hoverkit.min.css"</span> <span class="tag">/&gt;</span>
+
+<span class="cmt">&lt;!-- Use any button by class name --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn--lift"</span><span class="tag">&gt;</span>Click me<span class="tag">&lt;/button&gt;</span></code></pre>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <a class="btn-github" href="https://github.com/shubham-ralli/hoverkit" target="_blank" rel="noopener">
+      ★ Star on GitHub
+    </a>
+    <a class="btn-coffee" href="https://www.paypal.com/ncp/payment/WM23H4AS6535L" target="_blank" rel="noopener">
+      ☕ Buy me a coffee
+    </a>
+  </section>
+
+  <footer>
+    Link <code>hoverkit.css</code> (or the CDN) then use <code>&lt;button class="btn btn--lift"&gt;</code>
+  </footer>
+
+  <div id="toast">Copied HTML + CSS ✓</div>
+
+  <script src="library.js"></script>
+</body>
+</html>

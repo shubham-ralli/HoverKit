@@ -1,0 +1,865 @@
+/* ============================================================
+   Button Hover Library
+   Usage: <button class="btn btn--<name>">Label</button>
+   ============================================================ */
+
+/* Base — shared by all buttons */
+.btn {
+  --btn-bg: #6366f1;
+  --btn-fg: #ffffff;
+  --btn-accent: #22d3ee;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font: 600 15px/1 "Inter", system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.45);
+}
+
+/* ------------------------------------------------------------
+   1. Lift — rise up with a growing shadow
+   ------------------------------------------------------------ */
+.btn--lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(99, 102, 241, 0.4);
+}
+
+/* ------------------------------------------------------------
+   2. Fill — color sweeps in from left
+   ------------------------------------------------------------ */
+.btn--fill {
+  background: transparent;
+  color: var(--btn-bg);
+  border: 2px solid var(--btn-bg);
+}
+.btn--fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--btn-bg);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+  z-index: -1;
+}
+.btn--fill:hover {
+  color: #fff;
+}
+.btn--fill:hover::before {
+  transform: scaleX(1);
+}
+
+/* ------------------------------------------------------------
+   3. Shine — glossy light streak sweeps across
+   ------------------------------------------------------------ */
+.btn--shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: skewX(-20deg);
+}
+.btn--shine:hover::after {
+  animation: btn-shine 0.85s ease;
+}
+@keyframes btn-shine {
+  100% {
+    left: 125%;
+  }
+}
+
+/* ------------------------------------------------------------
+   4. Border draw — outline draws itself around
+   ------------------------------------------------------------ */
+.btn--border {
+  background: transparent;
+  color: var(--btn-bg);
+}
+.btn--border::before,
+.btn--border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+.btn--border::before {
+  border-top: 2px solid var(--btn-bg);
+  border-bottom: 2px solid var(--btn-bg);
+  transform: scaleX(0);
+}
+.btn--border::after {
+  border-left: 2px solid var(--btn-bg);
+  border-right: 2px solid var(--btn-bg);
+  transform: scaleY(0);
+}
+.btn--border:hover::before {
+  transform: scaleX(1);
+}
+.btn--border:hover::after {
+  transform: scaleY(1);
+}
+
+/* ------------------------------------------------------------
+   5. Glow — neon pulse around the button
+   ------------------------------------------------------------ */
+.btn--glow:hover {
+  box-shadow: 0 0 8px var(--btn-bg), 0 0 24px var(--btn-bg),
+    0 0 48px var(--btn-bg);
+}
+
+/* ------------------------------------------------------------
+   6. Gradient shift — animated gradient slides
+   ------------------------------------------------------------ */
+.btn--gradient {
+  background: linear-gradient(
+    90deg,
+    #6366f1,
+    #a855f7,
+    #ec4899,
+    #6366f1
+  );
+  background-size: 300% 100%;
+  background-position: 0% 50%;
+  transition: background-position 0.5s ease, transform 0.2s ease;
+}
+.btn--gradient:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+}
+
+/* ------------------------------------------------------------
+   7. Push — 3D press with hard shadow
+   ------------------------------------------------------------ */
+.btn--push {
+  box-shadow: 0 6px 0 #4338ca;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.btn--push:hover {
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 #4338ca;
+}
+.btn--push:active {
+  transform: translateY(6px);
+  box-shadow: 0 0 0 #4338ca;
+}
+
+/* ------------------------------------------------------------
+   8. Expand — letters spread apart
+   ------------------------------------------------------------ */
+.btn--expand {
+  transition: letter-spacing 0.3s ease, background 0.3s ease;
+}
+.btn--expand:hover {
+  letter-spacing: 0.25em;
+  background: #4f46e5;
+}
+
+/* ------------------------------------------------------------
+   9. Underline slide — bar grows under label
+   ------------------------------------------------------------ */
+.btn--underline {
+  background: transparent;
+  color: var(--btn-bg);
+  border-radius: 0;
+}
+.btn--underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 6px;
+  width: 100%;
+  height: 2px;
+  background: var(--btn-bg);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+.btn--underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ------------------------------------------------------------
+   10. Split — top/bottom halves slide apart on hover
+   ------------------------------------------------------------ */
+.btn--split {
+  background:
+    linear-gradient(var(--btn-accent), var(--btn-accent)) no-repeat top / 100% 0,
+    linear-gradient(var(--btn-accent), var(--btn-accent)) no-repeat bottom / 100% 0,
+    var(--btn-bg);
+  transition: background-size 0.35s ease;
+}
+.btn--split:hover {
+  background-size: 100% 51%, 100% 51%;
+}
+
+/* ------------------------------------------------------------
+   11. Grow — scale up on hover
+   ------------------------------------------------------------ */
+.btn--grow:hover {
+  transform: scale(1.08);
+}
+
+/* ------------------------------------------------------------
+   12. Skew — horizontal tilt
+   ------------------------------------------------------------ */
+.btn--skew:hover {
+  transform: skewX(-8deg);
+}
+
+/* ------------------------------------------------------------
+   13. Rotate — slight rotate with scale
+   ------------------------------------------------------------ */
+.btn--rotate:hover {
+  transform: rotate(-3deg) scale(1.04);
+}
+
+/* ------------------------------------------------------------
+   14. Slide — solid color slides up from bottom
+   ------------------------------------------------------------ */
+.btn--slide {
+  background:
+    linear-gradient(var(--btn-accent), var(--btn-accent)) no-repeat bottom / 100% 0,
+    var(--btn-bg);
+  transition: background-size 0.35s ease;
+}
+.btn--slide:hover {
+  background-size: 100% 100%;
+}
+
+/* ------------------------------------------------------------
+   15. Radial — accent circle expands from center
+   ------------------------------------------------------------ */
+.btn--radial {
+  background:
+    radial-gradient(circle, var(--btn-accent) 0, var(--btn-accent) 100%) no-repeat center / 0% 0%,
+    var(--btn-bg);
+  transition: background-size 0.45s ease;
+}
+.btn--radial:hover {
+  background-size: 250% 250%;
+}
+
+/* ------------------------------------------------------------
+   16. Stripes — animated diagonal stripes
+   ------------------------------------------------------------ */
+.btn--stripes {
+  background-color: var(--btn-bg);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.14) 0,
+    rgba(255, 255, 255, 0.14) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+.btn--stripes:hover {
+  animation: btn-stripes 0.5s linear infinite;
+}
+@keyframes btn-stripes {
+  to {
+    background-position: 22.63px 0;
+  }
+}
+
+/* ------------------------------------------------------------
+   17. Corners — corner brackets appear
+   ------------------------------------------------------------ */
+.btn--corners::before,
+.btn--corners::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.btn--corners::before {
+  top: 6px;
+  left: 6px;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  transform: translate(4px, 4px);
+}
+.btn--corners::after {
+  bottom: 6px;
+  right: 6px;
+  border-bottom: 2px solid #fff;
+  border-right: 2px solid #fff;
+  transform: translate(-4px, -4px);
+}
+.btn--corners:hover::before,
+.btn--corners:hover::after {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* ------------------------------------------------------------
+   18. Outline — offset outline expands outward
+   ------------------------------------------------------------ */
+.btn--outline {
+  outline: 2px solid var(--btn-bg);
+  outline-offset: 0;
+  transition: outline-offset 0.2s ease;
+}
+.btn--outline:hover {
+  outline-offset: 5px;
+}
+
+/* ------------------------------------------------------------
+   19. Pulse — expanding ring pulse
+   ------------------------------------------------------------ */
+.btn--pulse:hover {
+  animation: btn-pulse 1.2s ease-out infinite;
+}
+@keyframes btn-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 18px rgba(99, 102, 241, 0);
+  }
+}
+
+/* ------------------------------------------------------------
+   20. Neon — cycling multi-color glow
+   ------------------------------------------------------------ */
+.btn--neon:hover {
+  animation: btn-neon 1.5s linear infinite;
+}
+@keyframes btn-neon {
+  0% {
+    box-shadow: 0 0 12px #6366f1, 0 0 24px #6366f1;
+  }
+  33% {
+    box-shadow: 0 0 12px #a855f7, 0 0 24px #a855f7;
+  }
+  66% {
+    box-shadow: 0 0 12px #ec4899, 0 0 24px #ec4899;
+  }
+  100% {
+    box-shadow: 0 0 12px #6366f1, 0 0 24px #6366f1;
+  }
+}
+
+/* ------------------------------------------------------------
+   21. Float — gentle up/down float while hovered
+   ------------------------------------------------------------ */
+.btn--float:hover {
+  animation: btn-float 1.2s ease-in-out infinite;
+}
+@keyframes btn-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ------------------------------------------------------------
+   22. Bounce — bounce upward
+   ------------------------------------------------------------ */
+.btn--bounce:hover {
+  animation: btn-bounce 0.6s ease;
+}
+@keyframes btn-bounce {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-10px); }
+  50% { transform: translateY(0); }
+  70% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   23. Jelly — squash and stretch
+   ------------------------------------------------------------ */
+.btn--jelly:hover {
+  animation: btn-jelly 0.6s ease;
+}
+@keyframes btn-jelly {
+  0%, 100% { transform: scale(1, 1); }
+  30% { transform: scale(1.12, 0.88); }
+  50% { transform: scale(0.9, 1.1); }
+  70% { transform: scale(1.05, 0.95); }
+}
+
+/* ------------------------------------------------------------
+   24. Flip — 3D flip on the X axis
+   ------------------------------------------------------------ */
+.btn--flip:hover {
+  animation: btn-flip 0.6s ease;
+}
+@keyframes btn-flip {
+  0% { transform: perspective(400px) rotateX(0); }
+  100% { transform: perspective(400px) rotateX(360deg); }
+}
+
+/* ------------------------------------------------------------
+   25. Sweep — color sweeps in from the right
+   ------------------------------------------------------------ */
+.btn--sweep {
+  background:
+    linear-gradient(var(--btn-accent), var(--btn-accent)) no-repeat right / 0% 100%,
+    var(--btn-bg);
+  transition: background-size 0.35s ease;
+}
+.btn--sweep:hover {
+  background-size: 100% 100%;
+}
+
+/* ------------------------------------------------------------
+   26. Shimmer — moving light band loops across
+   ------------------------------------------------------------ */
+.btn--shimmer {
+  background-color: var(--btn-bg);
+  background-image: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 70%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  background-position: -50% 0;
+}
+.btn--shimmer:hover {
+  animation: btn-shimmer 1s linear infinite;
+}
+@keyframes btn-shimmer {
+  to { background-position: 150% 0; }
+}
+
+/* ------------------------------------------------------------
+   27. Diagonal — color slides in diagonally
+   ------------------------------------------------------------ */
+.btn--diagonal {
+  background: linear-gradient(135deg, var(--btn-bg) 0 50%, var(--btn-accent) 50% 100%);
+  background-size: 220% 220%;
+  background-position: 0% 0%;
+  transition: background-position 0.4s ease;
+}
+.btn--diagonal:hover {
+  background-position: 100% 100%;
+}
+
+/* ------------------------------------------------------------
+   28. Frame — inset frame appears inside
+   ------------------------------------------------------------ */
+.btn--frame {
+  transition: box-shadow 0.3s ease;
+}
+.btn--frame:hover {
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.8);
+}
+
+/* ------------------------------------------------------------
+   29. Bars — thin bars grow across top and bottom
+   ------------------------------------------------------------ */
+.btn--bars {
+  background:
+    linear-gradient(#fff, #fff) no-repeat top / 0% 2px,
+    linear-gradient(#fff, #fff) no-repeat bottom / 0% 2px,
+    var(--btn-bg);
+  transition: background-size 0.3s ease;
+}
+.btn--bars:hover {
+  background-size: 100% 2px, 100% 2px;
+}
+
+/* ------------------------------------------------------------
+   30. Inset — pressed-in inner shadow
+   ------------------------------------------------------------ */
+.btn--inset {
+  transition: box-shadow 0.3s ease;
+}
+.btn--inset:hover {
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* ------------------------------------------------------------
+   31. Shake — quick horizontal shake
+   ------------------------------------------------------------ */
+.btn--shake:hover {
+  animation: btn-shake 0.4s ease;
+}
+@keyframes btn-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* ------------------------------------------------------------
+   32. Pop — quick scale pop
+   ------------------------------------------------------------ */
+.btn--pop:hover {
+  animation: btn-pop 0.35s ease;
+}
+@keyframes btn-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* ------------------------------------------------------------
+   33. Swing — pendulum swing from the top
+   ------------------------------------------------------------ */
+.btn--swing:hover {
+  transform-origin: top center;
+  animation: btn-swing 0.6s ease;
+}
+@keyframes btn-swing {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(8deg); }
+  40% { transform: rotate(-6deg); }
+  60% { transform: rotate(4deg); }
+  80% { transform: rotate(-2deg); }
+}
+
+/* ------------------------------------------------------------
+   34. Wipe — color wipes from top to bottom
+   ------------------------------------------------------------ */
+.btn--wipe {
+  background:
+    linear-gradient(var(--btn-accent), var(--btn-accent)) no-repeat top / 100% 0,
+    var(--btn-bg);
+  transition: background-size 0.35s ease;
+}
+.btn--wipe:hover {
+  background-size: 100% 100%;
+}
+
+/* ------------------------------------------------------------
+   35. Center — color grows outward from the center
+   ------------------------------------------------------------ */
+.btn--center {
+  background:
+    linear-gradient(var(--btn-accent), var(--btn-accent)) no-repeat center / 0% 100%,
+    var(--btn-bg);
+  transition: background-size 0.35s ease;
+}
+.btn--center:hover {
+  background-size: 100% 100%;
+}
+
+/* ------------------------------------------------------------
+   36. Dots — animated polka-dot pattern
+   ------------------------------------------------------------ */
+.btn--dots {
+  background-color: var(--btn-bg);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.28) 2px, transparent 2px);
+  background-size: 14px 14px;
+}
+.btn--dots:hover {
+  animation: btn-dots 0.6s linear infinite;
+}
+@keyframes btn-dots {
+  to { background-position: 14px 0; }
+}
+
+/* ------------------------------------------------------------
+   37. Centerline — underline grows from the center
+   ------------------------------------------------------------ */
+.btn--centerline {
+  background: transparent;
+  color: var(--btn-bg);
+  border-radius: 0;
+}
+.btn--centerline::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 0;
+  height: 2px;
+  background: var(--btn-bg);
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+.btn--centerline:hover::after {
+  width: 100%;
+}
+
+/* ------------------------------------------------------------
+   38. Pill — morphs into a pill shape
+   ------------------------------------------------------------ */
+.btn--pill {
+  transition: border-radius 0.3s ease, background 0.3s ease;
+}
+.btn--pill:hover {
+  border-radius: 999px;
+  background: #4f46e5;
+}
+
+/* ------------------------------------------------------------
+   39. Raise — layered lift shadow
+   ------------------------------------------------------------ */
+.btn--raise {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.btn--raise:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.2),
+    0 10px 20px rgba(0, 0, 0, 0.25),
+    0 18px 40px rgba(99, 102, 241, 0.35);
+}
+
+/* ------------------------------------------------------------
+   40. Long — stacked long shadow
+   ------------------------------------------------------------ */
+.btn--long {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn--long:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 3px 3px 0 #4f46e5, 6px 6px 0 #4338ca, 9px 9px 0 #3730a3;
+}
+
+/* ============================================================
+   Icon buttons
+   Markup: <button class="btn btn--icon-slide">
+             <span class="btn__text">Label</span>
+             <span class="btn__icon">→</span>
+           </button>
+   ============================================================ */
+.btn__text {
+  display: inline-flex;
+}
+.btn__icon {
+  display: inline-flex;
+  margin-left: 8px;
+  transition: transform 0.25s ease;
+}
+
+/* ------------------------------------------------------------
+   41. Icon slide — arrow slides right
+   ------------------------------------------------------------ */
+.btn--icon-slide:hover .btn__icon {
+  transform: translateX(5px);
+}
+
+/* ------------------------------------------------------------
+   42. Icon reveal — icon slides in on hover
+   ------------------------------------------------------------ */
+.btn--icon-reveal .btn__icon {
+  max-width: 0;
+  margin-left: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateX(6px);
+  transition: max-width 0.3s ease, margin-left 0.3s ease, opacity 0.3s ease,
+    transform 0.3s ease;
+}
+.btn--icon-reveal:hover .btn__icon {
+  max-width: 24px;
+  margin-left: 8px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ------------------------------------------------------------
+   43. Icon spin — icon rotates a full turn
+   ------------------------------------------------------------ */
+.btn--icon-spin .btn__icon {
+  transition: transform 0.5s ease;
+}
+.btn--icon-spin:hover .btn__icon {
+  transform: rotate(360deg);
+}
+
+/* ------------------------------------------------------------
+   44. Icon bounce — icon bounces down
+   ------------------------------------------------------------ */
+.btn--icon-bounce:hover .btn__icon {
+  animation: btn-icon-bounce 0.6s ease infinite;
+}
+@keyframes btn-icon-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+/* ------------------------------------------------------------
+   45. Icon fly — icon flies out and returns
+   ------------------------------------------------------------ */
+.btn--icon-fly:hover .btn__icon {
+  animation: btn-icon-fly 0.5s ease;
+}
+@keyframes btn-icon-fly {
+  50% { transform: translate(10px, -10px); opacity: 0; }
+  51% { transform: translate(-10px, 10px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+/* ------------------------------------------------------------
+   46. Icon pop — icon scales up briefly
+   ------------------------------------------------------------ */
+.btn--icon-pop:hover .btn__icon {
+  animation: btn-icon-pop 0.4s ease;
+}
+@keyframes btn-icon-pop {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+}
+
+/* ============================================================
+   More effects
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   47. Tilt — perspective tilt back
+   ------------------------------------------------------------ */
+.btn--tilt {
+  transition: transform 0.3s ease;
+}
+.btn--tilt:hover {
+  transform: perspective(500px) rotateX(12deg);
+}
+
+/* ------------------------------------------------------------
+   48. Rubber — rubber-band squash and stretch
+   ------------------------------------------------------------ */
+.btn--rubber:hover {
+  animation: btn-rubber 0.7s ease;
+}
+@keyframes btn-rubber {
+  0% { transform: scale(1, 1); }
+  30% { transform: scale(1.25, 0.75); }
+  40% { transform: scale(0.75, 1.25); }
+  50% { transform: scale(1.15, 0.85); }
+  65% { transform: scale(0.95, 1.05); }
+  75% { transform: scale(1.05, 0.95); }
+  100% { transform: scale(1, 1); }
+}
+
+/* ------------------------------------------------------------
+   49. Uppercase — letters spread and uppercase
+   ------------------------------------------------------------ */
+.btn--uppercase {
+  transition: letter-spacing 0.3s ease;
+}
+.btn--uppercase:hover {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------
+   50. Wave — looping gradient wave
+   ------------------------------------------------------------ */
+.btn--wave {
+  background: linear-gradient(90deg, #6366f1, #22d3ee, #6366f1);
+  background-size: 200% 100%;
+}
+.btn--wave:hover {
+  animation: btn-wave 1.2s linear infinite;
+}
+@keyframes btn-wave {
+  to { background-position: 200% 0; }
+}
+
+/* ------------------------------------------------------------
+   51. Checker — moving checkerboard
+   ------------------------------------------------------------ */
+.btn--checker {
+  background-color: var(--btn-bg);
+  background-image:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.12) 75%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.12) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+.btn--checker:hover {
+  animation: btn-checker 0.6s linear infinite;
+}
+@keyframes btn-checker {
+  to { background-position: 20px 0, 30px 10px; }
+}
+
+/* ------------------------------------------------------------
+   52. Blinds — striped curtain fills in
+   ------------------------------------------------------------ */
+.btn--blinds {
+  background-color: var(--btn-bg);
+  background-image: repeating-linear-gradient(90deg, var(--btn-accent) 0 20px, transparent 20px 40px);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 100% 0;
+  transition: background-size 0.4s ease;
+}
+.btn--blinds:hover {
+  background-size: 100% 100%;
+}
+
+/* ------------------------------------------------------------
+   53. Glow border — glowing outline
+   ------------------------------------------------------------ */
+.btn--glowborder {
+  transition: box-shadow 0.3s ease;
+}
+.btn--glowborder:hover {
+  box-shadow: 0 0 0 2px var(--btn-accent), 0 0 12px var(--btn-accent);
+}
+
+/* ------------------------------------------------------------
+   54. Thick — thick underline grows across
+   ------------------------------------------------------------ */
+.btn--thick {
+  background: transparent;
+  color: var(--btn-bg);
+  border-radius: 0;
+}
+.btn--thick::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 8px;
+  background: var(--btn-accent);
+  transition: width 0.3s ease;
+}
+.btn--thick:hover::after {
+  width: 100%;
+}
+
+/* ------------------------------------------------------------
+   55. Soft — soft ambient glow lift
+   ------------------------------------------------------------ */
+.btn--soft {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn--soft:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.55);
+}
+
+/* ------------------------------------------------------------
+   56. Ring — soft halo ring appears
+   ------------------------------------------------------------ */
+.btn--ring {
+  transition: box-shadow 0.3s ease;
+}
+.btn--ring:hover {
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.35);
+}
